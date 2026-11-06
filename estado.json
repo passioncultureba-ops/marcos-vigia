@@ -1,0 +1,12 @@
+{
+  "huellas": {
+    "primera-divi-f16-san-lorenzo-platense": "[\"2026-11-06\",\"19:15\",\"confirmado\",\"San Lorenzo\",\"Platense\",\"Pedro Bidegain\"]",
+    "primera-divi-f16-boca-juniors-defensa-y-justicia": "[\"2026-11-07\",\"17:30\",\"confirmado\",\"Boca Juniors\",\"Defensa y Justicia\",\"La Bombonera\"]",
+    "primera-divi-f16-argentinos-juniors-huracan": "[\"2026-11-07\",\"17:30\",\"confirmado\",\"Argentinos Juniors\",\"Huracán\",\"Diego Armando Maradona\"]",
+    "primera-divi-f16-independiente-deportivo-riestra": "[\"2026-11-06\",\"19:15\",\"confirmado\",\"Independiente\",\"Deportivo Riestra\",\"Libertadores de América\"]"
+  },
+  "cierres": {
+    "primera-divi-f16-san-lorenzo-platense": 1793916900000,
+    "primera-divi-f16-independiente-deportivo-riestra": 1793916900000
+  }
+}

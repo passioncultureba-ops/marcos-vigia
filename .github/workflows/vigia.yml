@@ -1,0 +1,40 @@
+# Vigía de Marcos Galperin. Programa común, sin IA (vigia.mjs). Despierta a Marcos solo si Chiqui cambió un partido ya publicado
+# o si un partido publicado llegó a su hora de cierre. Vive en un repo público para que los minutos de ejecución sean ilimitados.
+# Lo dispara un reloj externo cada 10 minutos (workflow_dispatch); el cron de GitHub queda de respaldo porque GitHub lo atrasa o lo saltea.
+# Secretos del repositorio (se cargan en GitHub, nunca en archivos):
+#   CHIQUI_DEPLOY_KEY  llave de SOLO LECTURA para leer el repo privado chiqui-tapia
+#   VIGIA_SECRET       clave compartida con la puerta del puente (api/vigia.js de marcos-puente-telegram)
+name: vigia
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/10 * * * *"
+concurrency:
+  group: vigia
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  vigia:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: passioncultureba-ops/chiqui-tapia
+          ssh-key: ${{ secrets.CHIQUI_DEPLOY_KEY }}
+          path: chiqui
+      - name: Mirar y, si hace falta, despertar a Marcos
+        env:
+          VIGIA_SECRET: ${{ secrets.VIGIA_SECRET }}
+        run: node vigia.mjs --libreta chiqui/libreta.json --estado estado.json
+      - name: Guardar el estado si cambió
+        run: |
+          if [ -n "$(git status --porcelain estado.json)" ]; then
+            git config user.name "vigia"
+            git config user.email "vigia@users.noreply.github.com"
+            git add estado.json
+            git commit -m "vigia: estado"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
